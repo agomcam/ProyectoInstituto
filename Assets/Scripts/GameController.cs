@@ -19,7 +19,6 @@ public class GameController : MonoBehaviour
     void Update()
     {
         _background.material.mainTextureOffset += new Vector2(speed, 0) * Time.deltaTime;
-
     }
 
     IEnumerator AddSpeedRoutine()
