@@ -20,7 +20,6 @@ public class MovePlayer : MonoBehaviour
     void Update()
     {
         bool isGrounded = IsGrounded();
-        Debug.Log(isGrounded);
 
         if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
         {

@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8870755597013684220}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: PositionRaycast
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -45,7 +45,7 @@ GameObject:
   - component: {fileID: 4720106347547014851}
   - component: {fileID: 7950358065961610948}
   - component: {fileID: 1079136843352432399}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -160,7 +160,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDamping: 0
   m_AngularDamping: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 1.5
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -230,7 +230,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a2fb0c17f633b644b5f6f9cda440a56, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jump: 5
+  jump: 10
   rayCastDistance: 0.2
   positionRaycast: {fileID: 8870755597013684220}
   groundLayer:
