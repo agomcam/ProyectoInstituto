@@ -2,9 +2,17 @@ using UnityEngine;
 
 public class Scroll : MonoBehaviour
 {
-    [SerializeField] private float speed;
+ 
+    private float speed;
 
-    
+    private void Start()
+    {
+        if (GameController.Instance != null)
+        {
+            speed = GameController.Instance.SpeedEnemyAndFloor;
+        }
+    }
+
     void Update()
     {
         transform.position += Vector3.left * speed * Time.deltaTime;

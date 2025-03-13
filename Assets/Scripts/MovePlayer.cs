@@ -26,6 +26,11 @@ public class MovePlayer : MonoBehaviour
             _rigidbody2D.AddForce(Vector2.up * jump, ForceMode2D.Impulse);
         }
 
+        if (!isGrounded && Input.GetKeyDown(KeyCode.DownArrow))
+        {
+            _rigidbody2D.AddForce(Vector2.down * jump, ForceMode2D.Impulse);
+        }
+
         _animator.SetBool("isJumping", !isGrounded);
     }
 

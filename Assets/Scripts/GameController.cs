@@ -1,27 +1,37 @@
 using System.Collections;
 using UnityEngine;
-
+using UnityEngine.SceneManagement;
 
 public class GameController : MonoBehaviour
 {
     public static GameController Instance { get; private set; } // Singleton
 
     [SerializeField] private float speed = 0.1f;
+    public float SpeedEnemyAndFloor { get; set; } = 2f;
+
     [SerializeField] private float incrementSpeed = 0.2f;
+    [SerializeField] private float incrementSpeedEnemys = 0.5f;
     [SerializeField] private float timeIncrement = 1f;
     [SerializeField] private float maxSpeed = 1f;
+
     [SerializeField] private Renderer background;
+    [SerializeField] private GameObject panelGameOver;
+    [SerializeField] private GameObject panelGameStart;
 
     [SerializeField] private GameObject[] listEnemy;
     [SerializeField] private GameObject positionEnemy;
 
     private bool isRunning = true;
+    private bool isStart = true;
+    private bool playerDead;
+
     private Coroutine enemyRoutine;
     private Coroutine speedRoutine;
 
+    private float spawnRate = 3f; // Tiempo inicial entre spawns
+
     private void Awake()
     {
-        // Implementación Singleton: Garantiza que solo haya una instancia
         if (Instance == null)
         {
             Instance = this;
@@ -29,10 +39,7 @@ public class GameController : MonoBehaviour
         else
         {
             Destroy(gameObject);
-            return;
         }
-
-        DontDestroyOnLoad(gameObject); // Mantener instancia entre escenas
     }
 
     private void Start()
@@ -47,25 +54,49 @@ public class GameController : MonoBehaviour
         {
             background.material.mainTextureOffset += new Vector2(speed, 0) * Time.deltaTime;
         }
+
+        if (playerDead && Input.anyKeyDown)
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        }
+
+        if (isStart && Input.anyKeyDown)
+        {
+            panelGameStart.SetActive(false);
+            isStart = false;
+            StartGame();
+        }
     }
 
     private IEnumerator AddSpeedRoutine()
     {
-        while (isRunning && speed < maxSpeed)
+        while (isRunning && !isStart && speed < maxSpeed)
         {
             yield return new WaitForSeconds(timeIncrement);
             speed += incrementSpeed;
             speed = Mathf.Min(speed, maxSpeed);
+            SpeedEnemyAndFloor += incrementSpeedEnemys;
+
+            UpdateSpawnRate();
         }
+    }
+
+    private void UpdateSpawnRate()
+    {
+        spawnRate = Mathf.Max(0.5f, 3f - (SpeedEnemyAndFloor / 5f));
     }
 
     private IEnumerator InstantiateEnemy()
     {
-        while (isRunning)
+        while (isRunning && !isStart)
         {
-            yield return new WaitForSeconds(3);
-            int randomNumber = Random.Range(0, listEnemy.Length - 1);
-            Instantiate(listEnemy[randomNumber], positionEnemy.transform);
+            if (listEnemy.Length != 0)
+            {
+                int randomNumber = Random.Range(0, listEnemy.Length);
+                Instantiate(listEnemy[randomNumber], positionEnemy.transform);
+            }
+
+            yield return new WaitForSeconds(spawnRate);
         }
     }
 
@@ -74,7 +105,6 @@ public class GameController : MonoBehaviour
         isRunning = false;
         speed = 0;
 
-        // Detener las corrutinas activas
         if (enemyRoutine != null)
         {
             StopCoroutine(enemyRoutine);
@@ -87,11 +117,25 @@ public class GameController : MonoBehaviour
             speedRoutine = null;
         }
 
-        // Detener objetos Scroll en la escena
-        Scroll[] scrolls = FindObjectsByType<Scroll>(FindObjectsSortMode.None);
-        foreach (var scrollAux in scrolls)
+        Scroll[] scrolls = FindObjectsOfType<Scroll>();
+        foreach (var scroll in scrolls)
         {
-            scrollAux.stopScroll();
+            scroll.stopScroll();
         }
+
+        panelGameOver.SetActive(true);
+        playerDead = true;
+    }
+
+    public void QuitGame()
+    {
+        Application.Quit();
+    }
+
+    private void StartGame()
+    {
+        isRunning = true;
+        enemyRoutine = StartCoroutine(InstantiateEnemy());
+        speedRoutine = StartCoroutine(AddSpeedRoutine());
     }
 }
