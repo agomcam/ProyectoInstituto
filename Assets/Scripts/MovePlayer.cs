@@ -9,7 +9,7 @@ public class MovePlayer : MonoBehaviour
     [SerializeField] private LayerMask groundLayer;
     private Rigidbody2D _rigidbody2D;
     private Animator _animator;
-
+    
     private RaycastHit2D _raycastHit2D;
     void Start()
     {
@@ -37,5 +37,13 @@ public class MovePlayer : MonoBehaviour
 
         return hit.collider != null && hit.collider.CompareTag("floor");
     }
-    
+
+    private void OnCollisionEnter2D(Collision2D other)
+    {
+        if (other.gameObject.CompareTag("enemy"))
+        {
+            Destroy(gameObject);
+            GameController.Instance.StopGame();
+        }
+    }
 }

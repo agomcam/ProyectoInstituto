@@ -10,4 +10,9 @@ public class Scroll : MonoBehaviour
         transform.position += Vector3.left * speed * Time.deltaTime;
 
     }
+
+    public void stopScroll()
+    {
+        speed = 0;
+    }
 }
