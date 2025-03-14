@@ -9,6 +9,7 @@ public class EnemyDie : MonoBehaviour
         if (other.gameObject.CompareTag("Player"))
         {
             Destroy(parent);
+            GameController.Instance.AddPoints(3);
         }
     }
 }

@@ -1,4 +1,5 @@
 using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -6,14 +7,16 @@ public class GameController : MonoBehaviour
 {
     public static GameController Instance { get; private set; } // Singleton
 
-    [SerializeField] private float speed = 0.1f;
-    public float SpeedEnemyAndFloor { get; set; } = 2f;
-
+    [SerializeField] private float baseSpeed = 0.1f;
+    private float speed;
+    public float SpeedEnemyAndFloor { get; private set; } = 4f;
+    private int _points;
+    private int lastThreshold = 0; // Último umbral alcanzado
     [SerializeField] private float incrementSpeed = 0.2f;
     [SerializeField] private float incrementSpeedEnemys = 0.5f;
-    [SerializeField] private float timeIncrement = 1f;
-    [SerializeField] private float maxSpeed = 1f;
-
+    [SerializeField] private float maxSpeed = 5f;
+    [SerializeField] private int pointsThreshold = 10;
+    
     [SerializeField] private Renderer background;
     [SerializeField] private GameObject panelGameOver;
     [SerializeField] private GameObject panelGameStart;
@@ -21,14 +24,12 @@ public class GameController : MonoBehaviour
     [SerializeField] private GameObject[] listEnemy;
     [SerializeField] private GameObject positionEnemy;
 
+    [SerializeField] private TMP_Text _PointsTMP;
+    
     private bool isRunning = true;
     private bool isStart = true;
     private bool playerDead;
-
-    private Coroutine enemyRoutine;
-    private Coroutine speedRoutine;
-
-    private float spawnRate = 3f; // Tiempo inicial entre spawns
+    private float spawnRate = 3f;
 
     private void Awake()
     {
@@ -44,8 +45,8 @@ public class GameController : MonoBehaviour
 
     private void Start()
     {
-        enemyRoutine = StartCoroutine(InstantiateEnemy());
-        speedRoutine = StartCoroutine(AddSpeedRoutine());
+        speed = baseSpeed;
+        StartCoroutine(InstantiateEnemy());
     }
 
     private void Update()
@@ -68,18 +69,21 @@ public class GameController : MonoBehaviour
         }
     }
 
-    private IEnumerator AddSpeedRoutine()
+    private void UpdateSpeed()
     {
-        while (isRunning && !isStart && speed < maxSpeed)
+        if (speed < maxSpeed)
         {
-            yield return new WaitForSeconds(timeIncrement);
             speed += incrementSpeed;
-            speed = Mathf.Min(speed, maxSpeed);
-            SpeedEnemyAndFloor += incrementSpeedEnemys;
-
-            UpdateSpawnRate();
         }
+
+        if (SpeedEnemyAndFloor < maxSpeed)
+        {
+            SpeedEnemyAndFloor += incrementSpeedEnemys;
+        }
+
+        UpdateSpawnRate();
     }
+
 
     private void UpdateSpawnRate()
     {
@@ -95,7 +99,6 @@ public class GameController : MonoBehaviour
                 int randomNumber = Random.Range(0, listEnemy.Length);
                 Instantiate(listEnemy[randomNumber], positionEnemy.transform);
             }
-
             yield return new WaitForSeconds(spawnRate);
         }
     }
@@ -104,18 +107,6 @@ public class GameController : MonoBehaviour
     {
         isRunning = false;
         speed = 0;
-
-        if (enemyRoutine != null)
-        {
-            StopCoroutine(enemyRoutine);
-            enemyRoutine = null;
-        }
-
-        if (speedRoutine != null)
-        {
-            StopCoroutine(speedRoutine);
-            speedRoutine = null;
-        }
 
         Scroll[] scrolls = FindObjectsOfType<Scroll>();
         foreach (var scroll in scrolls)
@@ -135,7 +126,18 @@ public class GameController : MonoBehaviour
     private void StartGame()
     {
         isRunning = true;
-        enemyRoutine = StartCoroutine(InstantiateEnemy());
-        speedRoutine = StartCoroutine(AddSpeedRoutine());
+        StartCoroutine(InstantiateEnemy());
+    }
+
+    public void AddPoints(int points)
+    {
+        _points += points;
+        _PointsTMP.text = $"Puntuación: {_points}";
+
+        if (_points >= lastThreshold + 5) // Cada vez que superamos el siguiente múltiplo de 5
+        {
+            lastThreshold += 5; // Actualizamos el umbral
+            UpdateSpeed(); // Incrementamos la velocidad
+        }
     }
 }
