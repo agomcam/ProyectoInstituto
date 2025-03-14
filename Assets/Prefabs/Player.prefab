@@ -160,7 +160,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDamping: 0
   m_AngularDamping: 0.05
-  m_GravityScale: 1.5
+  m_GravityScale: 4
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -170,7 +170,7 @@ Rigidbody2D:
     m_Bits: 0
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!61 &7950358065961610948
 BoxCollider2D:
@@ -230,9 +230,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a2fb0c17f633b644b5f6f9cda440a56, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jump: 10
+  jump: 15
   rayCastDistance: 0.2
   positionRaycast: {fileID: 8870755597013684220}
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
+  audioSourceJump: {fileID: 0}
+  audioSourceDeath: {fileID: 0}

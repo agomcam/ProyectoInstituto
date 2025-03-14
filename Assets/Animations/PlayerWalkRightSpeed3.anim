@@ -6,7 +6,7 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: PlayerWalkRight
+  m_Name: PlayerWalkRightSpeed3
   serializedVersion: 7
   m_Legacy: 0
   m_Compressed: 0
@@ -22,18 +22,18 @@ AnimationClip:
     curve:
     - time: 0
       value: {fileID: 5213251093186525720, guid: f6656ebc38e7ac54780ab084f67d6864, type: 3}
-    - time: 0.125
+    - time: 0.0625
       value: {fileID: 232990624997253742, guid: f6656ebc38e7ac54780ab084f67d6864, type: 3}
-    - time: 0.25
+    - time: 0.125
       value: {fileID: -5523191715973261491, guid: f6656ebc38e7ac54780ab084f67d6864, type: 3}
-    - time: 0.375
+    - time: 0.1875
       value: {fileID: 232990624997253742, guid: f6656ebc38e7ac54780ab084f67d6864, type: 3}
     attribute: m_Sprite
     path: 
     classID: 212
     script: {fileID: 0}
     flags: 2
-  m_SampleRate: 8
+  m_SampleRate: 16
   m_WrapMode: 0
   m_Bounds:
     m_Center: {x: 0, y: 0, z: 0}
@@ -59,7 +59,7 @@ AnimationClip:
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 0.5
+    m_StopTime: 0.25
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0

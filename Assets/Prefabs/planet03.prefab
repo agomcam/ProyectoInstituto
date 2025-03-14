@@ -91,6 +91,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71dc677871d7e12438ee2a17b527cdbe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  points: 1
 --- !u!1 &7344629496432864067
 GameObject:
   m_ObjectHideFlags: 0
@@ -104,7 +105,6 @@ GameObject:
   - component: {fileID: 6691090214406784457}
   - component: {fileID: 6085727223430318628}
   - component: {fileID: 4719102055708323474}
-  - component: {fileID: 8617946798790308371}
   m_Layer: 0
   m_Name: planet03
   m_TagString: enemy
@@ -245,28 +245,6 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: -0.0003786087, y: 0}
   m_Radius: 0.5063622
---- !u!95 &8617946798790308371
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7344629496432864067}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: b6dd6f5510c5760448d63ad6508ef9cb, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &7917399660661761392
 GameObject:
   m_ObjectHideFlags: 0
