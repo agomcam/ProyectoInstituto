@@ -231,7 +231,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   jump: 15
-  rayCastDistance: 0.2
+  rayCastDistance: 0.5
   positionRaycast: {fileID: 8870755597013684220}
   groundLayer:
     serializedVersion: 2

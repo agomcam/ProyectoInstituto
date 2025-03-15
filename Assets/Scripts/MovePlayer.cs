@@ -13,7 +13,6 @@ public class MovePlayer : MonoBehaviour
     
     private Rigidbody2D _rigidbody2D;
     private Animator _animator;
-    private Vector2 startTouchPosition, endTouchPosition;
     
     void Start()
     {
@@ -39,21 +38,17 @@ public class MovePlayer : MonoBehaviour
         if (Input.touchCount > 0)
         {
             Touch touch = Input.GetTouch(0);
+            Vector2 touchPosition = touch.position;
 
             if (touch.phase == TouchPhase.Began)
             {
-                startTouchPosition = touch.position;
-            }
-            else if (touch.phase == TouchPhase.Ended)
-            {
-                endTouchPosition = touch.position;
-                Vector2 swipeDirection = endTouchPosition - startTouchPosition;
-
-                if (swipeDirection.y > 50 && isGrounded) // Deslizar arriba
+                // Si el toque es en la parte derecha de la pantalla (más de la mitad), saltamos.
+                if (touchPosition.x > Screen.width / 2 && isGrounded)
                 {
                     Jump();
                 }
-                else if (swipeDirection.y < -50 && !isGrounded) // Deslizar abajo
+                // Si el toque es en la parte izquierda de la pantalla (menos de la mitad), descendemos.
+                else if (touchPosition.x <= Screen.width / 2 && !isGrounded)
                 {
                     Descend();
                 }
@@ -88,6 +83,7 @@ public class MovePlayer : MonoBehaviour
 
     private void Jump()
     {
+        _rigidbody2D.linearVelocity = new Vector2(_rigidbody2D.linearVelocity.x, 0);
         _rigidbody2D.AddForce(Vector2.up * jump, ForceMode2D.Impulse);
         audioSourceJump.Play();
     }
